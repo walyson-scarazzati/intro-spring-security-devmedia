@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+
+    <title>Exemplo - Login - Spring Security</title>
+    <!--  indica que essa página pode ser acessada por todos independente do usuario está autenticado ou não, ao executar aplicação novamente ele vai abrir agora a pagina de "login criada" porém ele não vai carregar as classes de bootstrap observando a pagina de login
+      na tag head tem um link para o css do Bootstrap nesse ponto que está o problema, o Spring Security está barrando esse caminho iniciado com /webJars, só foi liberado o /login no formulario de login  
+      sendo necessario adionar o .antMatchers("/webjars/**").permitAll()
+      qualquer requisição iniciada com /webjars/** (barra qualquer coisa que são os asteristicos) essa requisição deve ser liberada,  feito isso execute o projeto agora carrega os CSS
+      
+      -->
+    <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="row">
+    <div class="mx-auto">
+    
+		<!-- se informar usuario ou senha incorretos, o spring security por default manda de volta para essa tela de login mas com um parametro na URL de nome error, assim caso esse parametro exista,
+		 o que verificado nessa estrutura condicional é exibido uma  mensagem informando que login ou senha informados estão incorretos -->
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">Usuário/senha inválidos!</div>
+        </div>
+<!-- 		se houver o parametro logout na URL a mensagem usuario desconectado deve ser exibida, por padrão esse parametro é adicionado pelo Spring Segurity na URL quando usuario desconetada da aplicação
+        ao executar essa ação usuario é redirecionado para /login?logout -->
+        <div th:if="${param.logout}">
+            <div class="alert alert-info">Usuário desconectado!</div>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">Informe usuário e senha</h5>
+            <div class="card-body">
+           <!--  no atributo th:action os dados desse form devem ser enviados  para /login, define o metodo como Post, o Spring aguarda que requisição com os dados de usuario e senha utilizem o verbo Post -->
+                <form th:action="@{/login}" method="post">
+                    <div class="form-group">
+        <!--             nesses inputs o ponto mais importante está no atributo name, por default precisa utilizar os nomes username e password para que o framework consiga fazer a ligação desses campos com os dados que espera receber 
+                    assim prover autenticação do usuario sem problemas -->
+                        <label>Login:<input class="form-control" type="text" name="username" placeholder="Usuário"/></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Senha:<input class="form-control" type="password" name="password" placeholder="Senha"/></label>
+                    </div>
+	<!-- manter o nome de remember-me desta forma que Spring Security  fara a ligação desse checkbox com a funcionalidade de lembrar usuario -->
+                    <div class="form-group">
+                        <input type="checkbox" id="remember-me" name="remember-me"/>
+                        <label for="remember-me">Lembrar</label>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

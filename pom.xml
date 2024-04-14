@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>br.com.devmedia</groupId>
+    <artifactId>intro-spring-security</artifactId>
+    <version>1.0-SNAPSHOT</version>
+   <!--  indica que vai usar o Spring boot versão 2 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.0.RELEASE</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+		<!-- basta adicionar isso para usar o Spring Security para através das convenções de funcionamento ele já configura um mecanismo de autenticação para acesso ao sistema sem precisar fazer nada
+		para confirmar isso executa o projeto tem um log impresso no console repare na linha Using generated security password: e5a4618e-5e5d-4ef6 ela gerou uma senha seleciona e copia essa senha, por que uma senha foi gerada se na aplicação 
+		não tem uma linha de código relacionado autenticação ou mesmo uma tela de login? Antes de adicionar essa dependência ela ia direto para tela de home, agora ela vai para tela de login padrão criada e fornecida pelo Spring Security
+		ao tentar acessar o endereço localhost:8080/lista-usuarios vai notar que é direcionado para localhost:8080/login, ou seja apenas declarando a dependência do Spring Security o projeto passa a ter um controle de acesso simples 
+		mas perfetamente funcional para logar basta colocar no campo user o valor user e na senha colocar e5a4618e-5e5d-4ef6 a cada nova execução do projeto será gerada uma nova senha
+		que estava no log ao clicar no botão login agora tem acesso a todas páginas da aplicação se fechar o browser e abrir novamente e acessar novamente aplicação
+		 nota que precisara novamente informar o usuario e senha, essa tela de login padrão vai ser substituida por uma personalizada
+		-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+		<!-- podera realizar alguns ajustes no html, ele trata o erro de ao clicar em páginas que usuario não tem permissão
+		declarando o xmlns:sec no html o atributo sec:authorize está dizendo que devem exibidas apenas se o usuario logado estiver o papel especificado em "hasRole", 
+		caso ele não tenha a opção não deve ser exibida
+		 -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+    </dependencies>
+ 
+<!--  para que o Spring Boot possa comunicar com o Maven assim cuidar compilação e comunicação do projeto  -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
