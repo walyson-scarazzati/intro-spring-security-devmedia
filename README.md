@@ -1,1 +1,1 @@
-código feito durante o curso Primeiros passos com Spring Security da https://www.devmedia.com.br/ rodar no http://localhost:9595/login
+code made during the course Primeiros passos com Spring Security from https://www.devmedia.com.br/ run http://localhost:9595/login
